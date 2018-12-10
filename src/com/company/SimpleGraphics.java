@@ -28,8 +28,8 @@ public enum SimpleGraphics {
 
     SimpleGraphics() {
 
-        int n = 50;
-        int m = 50;
+        int n = 90;
+        int m = 90;
 
         height = 30 + n * 11;
         width = 30 + m * 11;
