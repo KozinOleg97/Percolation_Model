@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-
 public enum SimpleGraphics {
     INSTANCE;
 
@@ -18,6 +17,9 @@ public enum SimpleGraphics {
     int width = 1000;
     int height = 1000;
 
+    boolean done;
+    int iterationNum = 0;
+
     Main main;
 
 
@@ -26,8 +28,8 @@ public enum SimpleGraphics {
 
     SimpleGraphics() {
 
-        int n = 40;
-        int m = 60;
+        int n = 50;
+        int m = 50;
 
         height = 30 + n * 11;
         width = 30 + m * 11;
@@ -53,7 +55,8 @@ public enum SimpleGraphics {
 
 
     private void step() {
-        main.step();
+        iterationNum++;
+        done = main.step();
 
     }
 
@@ -84,6 +87,8 @@ public enum SimpleGraphics {
             g.drawLine(b * main.m + c, leftUp, b * main.m + c, b * main.n + c);
             g.drawLine(b * main.m + c, b * main.n + c, leftUp, b * main.n + c);
             g.drawLine(leftUp, b * main.n + c, leftUp, leftUp);
+            char[] statIter = ("" + iterationNum).toCharArray();
+            g.drawChars(statIter, 0, statIter.length, leftUp + 50, b * main.n + c + 12);
 
             for (int i = 0; i < main.n; i++) {
                 for (int j = 0; j < main.m; j++) {
@@ -97,6 +102,7 @@ public enum SimpleGraphics {
                             break;
                         case 2:
                             g.setColor(Color.cyan);
+                            main.mainEnvironment[i][j] = 1;
                             break;
                         default:
                             System.out.println("Errrrr");
@@ -106,6 +112,10 @@ public enum SimpleGraphics {
                     int x = 15 + (j * 11);
                     g.fillRect(x, y, 9, 9);
                 }
+            }
+            if (done) {
+                System.out.println("Done");
+                timer.stop();
             }
         }
 
