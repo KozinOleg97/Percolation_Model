@@ -7,8 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public enum SimpleGraphics {
-    INSTANCE;
+public class SimpleGraphics {
 
     JFrame frame;
     JPanel panel;
@@ -21,22 +20,21 @@ public enum SimpleGraphics {
     int iterationNum = 0;
 
     Main main;
-
+    int[][] supMas;
 
     public Color[] visibleBuffer = new Color[256 * 240];
 
 
-    SimpleGraphics() {
+    SimpleGraphics(int n, int m) {
 
-        int n = 90;
-        int m = 90;
 
         height = 30 + n * 11;
         width = 30 + m * 11;
+        supMas = new int[n][m];
 
         frame = new JFrame("Emul");
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.setSize(width, height);
         frame.setTitle("Emul");
         frame.setResizable(false);
@@ -54,15 +52,20 @@ public enum SimpleGraphics {
     }
 
 
-    private void step() {
+    public void step(Main main) {
+
+        this.main = main;
+
         iterationNum++;
-        done = main.step();
+
+        this.panel.repaint();
+
 
     }
 
 
     class GPanel extends JPanel implements ActionListener {
-        Timer timer = new Timer(1, this);
+        //Timer timer = new Timer(1, this);
 
         public GPanel() {
             super();
@@ -73,7 +76,7 @@ public enum SimpleGraphics {
             setPreferredSize(new Dimension(width, height));
 
 
-            timer.start();
+            //timer.start();
         }
 
         public void paint(Graphics g) {
@@ -98,11 +101,15 @@ public enum SimpleGraphics {
                             //g.setColor(Color.black);
                             continue;
                         case 1:
-                            g.setColor(Color.white);
+                            if (supMas[i][j] == 2) {
+                                g.setColor(Color.cyan);
+                            } else {
+                                g.setColor(Color.white);
+                            }
                             break;
                         case 2:
                             g.setColor(Color.cyan);
-                            main.mainEnvironment[i][j] = 1;
+                            supMas[i][j] = 2;
                             break;
                         default:
                             System.out.println("Errrrr");
@@ -113,20 +120,21 @@ public enum SimpleGraphics {
                     g.fillRect(x, y, 9, 9);
                 }
             }
-            if (done) {
+            /*if (done) {
                 System.out.println("Done");
-                timer.stop();
-            }
+                //timer.stop();
+            }*/
         }
 
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            step();
+            //step();
 
             repaint();
         }
+
 
     }
 
