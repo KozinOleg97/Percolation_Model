@@ -11,7 +11,7 @@ public class Main {
     public int n, m;
     public int[][] mainEnvironment;
 
-    //private List<resultElem> result;
+    private static List<resultElementAverage> additionalResult = new ArrayList<>();
 
     class resultElem {
         int endIteration;
@@ -21,6 +21,29 @@ public class Main {
             this.endIteration = endIteration;
             this.n = n;
             this.m = m;
+        }
+    }
+
+    class resultElementAverage {
+        int average;
+        long summ;
+        int numb;
+        int n, m;
+
+        resultElementAverage(int n, int m, int numb) {
+            this.n = n;
+            this.m = m;
+            this.numb = numb;
+            this.summ = 0;
+            this.average = 0;
+        }
+
+        public void addToSumm(int endIteration) {
+            this.summ += endIteration;
+        }
+
+        public long getAverage() {
+            return summ / numb;
         }
     }
 
@@ -147,6 +170,7 @@ public class Main {
 
     private List<resultElem> massStep(int testNumb) {
         List<resultElem> curRes = new ArrayList<resultElem>();
+        resultElementAverage curResAv = new resultElementAverage(n, m, testNumb);
         for (int i = 0; i < testNumb; i++) {
 
 
@@ -159,8 +183,11 @@ public class Main {
 
             }
             curRes.add(new resultElem(iter, n, m));
+            curResAv.addToSumm(iter);
+
             init();
         }
+        additionalResult.add(curResAv);
         return curRes;
     }
 
@@ -173,7 +200,7 @@ public class Main {
                 int m = elem.m;
                 int iter = elem.endIteration;
 
-                String str = n + " " + m + " " + iter + lineSeparator;
+                String str = n + "\t" + m + "\t" + m * n + "\t" + iter + lineSeparator;
                 writer.write(str);
             }
 
@@ -182,6 +209,27 @@ public class Main {
 
             System.out.println(ex.getMessage());
         }
+
+
+        try (FileWriter writer = new FileWriter(
+                fileName.substring(0, fileName.length() - 4)
+                        + "_average.txt", false)) {
+            for (resultElementAverage elem : additionalResult) {
+                int n = elem.n;
+                int m = elem.m;
+                long iter = elem.getAverage();
+
+                String str = n + "\t" + m + "\t" + m * n + "\t" + iter + lineSeparator;
+                writer.write(str);
+            }
+
+            writer.flush();
+        } catch (IOException ex) {
+
+            System.out.println(ex.getMessage());
+        }
+        additionalResult.clear();
+
     }
 
     public static void main(String[] args) throws IOException {
@@ -206,7 +254,7 @@ public class Main {
                     String curStr;
                     while ((curStr = reader.readLine()) != null) {
 
-                        String[] strMas = curStr.split(" ");
+                        String[] strMas = curStr.split("[\t ]");
                         int testNumb = 1;
 
                         if (strMas.length > 2) {
