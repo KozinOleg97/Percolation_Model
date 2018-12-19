@@ -1,10 +1,7 @@
 package com.company;
 
 import java.io.*;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
@@ -79,7 +76,10 @@ public class Main {
         int i, j = 0;
         int rnd;
 
+        Random rndN = new Random();
+
         do {
+            //rnd = 0 + (int) (rndN.nextGaussian() * ((m * n - 1) + 1));
             rnd = 0 + (int) (Math.random() * ((m * n - 1) + 1));
             //System.out.println(rnd);
 

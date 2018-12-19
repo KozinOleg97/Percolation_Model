@@ -91,7 +91,13 @@ public class SimpleGraphics {
             g.drawLine(b * main.m + c, b * main.n + c, leftUp, b * main.n + c);
             g.drawLine(leftUp, b * main.n + c, leftUp, leftUp);
             char[] statIter = ("" + iterationNum).toCharArray();
-            g.drawChars(statIter, 0, statIter.length, leftUp + 50, b * main.n + c + 12);
+            g.drawChars(statIter, 0, statIter.length, leftUp + 20, b * main.n + c + 12);
+            statIter = ("" + main.n * main.n).toCharArray();
+            g.drawChars(statIter, 0, statIter.length, leftUp + 80, b * main.n + c + 12);
+            statIter = ("" + (double)iterationNum / (main.n * main.n)).toCharArray();
+            g.drawChars(statIter, 0, statIter.length, leftUp + 130, b * main.n + c + 12);
+            //String tmpStr = (iterationNum / (main.n * main.n));
+            //g.drawString(statIter, 0, statIter.length, leftUp + 130, b * main.n + c + 12);
 
             for (int i = 0; i < main.n; i++) {
                 for (int j = 0; j < main.m; j++) {
